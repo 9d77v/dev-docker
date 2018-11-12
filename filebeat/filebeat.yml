@@ -4,5 +4,6 @@ filebeat.modules:
     var.paths: ["/var/log/nginx/access.log*"]
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
+setup.dashboards.enabled: true
 setup.kibana:
   host: "kibana:5601"
