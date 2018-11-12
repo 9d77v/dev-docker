@@ -1,7 +1,7 @@
 filebeat.modules:
 - module: nginx
   access: 
-    var.paths: ["/var/log/nginx/access.log*"]
+    var.paths: ["/var/log/nginx/access.log*","/var/log/nginx/error.log*"]
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
 setup.dashboards.enabled: true
