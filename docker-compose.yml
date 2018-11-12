@@ -68,12 +68,21 @@ services:
       - esdata:/usr/share/elasticsearch/data
       - eslog:/usr/share/elasticsearch/logs
     container_name: ${DEVELOPER}-elasticsearch
-  logstash:
-    image: 9d77v/logstash:6.4.2 #docker.elastic.co/logstash/logstash:6.4.2
+  # logstash:
+  #   image: 9d77v/logstash:6.4.2 #docker.elastic.co/logstash/logstash:6.4.2
+  #   restart: always
+  #   volumes:
+  #     - ./logstash/pipeline:/usr/share/logstash/pipeline
+      # - ./logstash/jars:/opt/logstash/jars
+    # container_name: ${DEVELOPER}-logstash
+  filebeat:
+    image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
+    restart: always
+    user: root
     volumes:
-      - ./jars:/opt/logstash/jars
-      - ./pipeline:/usr/share/logstash/pipeline
-    container_name: ${DEVELOPER}-logstash
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/log/nginx:/var/log/nginx
+    container_name: ${DEVELOPER}-filebeat
   kibana:
     image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
     restart: always
