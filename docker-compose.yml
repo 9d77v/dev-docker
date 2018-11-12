@@ -1,0 +1,152 @@
+version: '3.6'
+
+services:
+  etcd:
+    image: 9d77v/etcd:v3.2.18 #quay.io/coreos/etcd:v3.2.18
+    restart: always
+    command: >
+      /usr/local/bin/etcd 
+      --data-dir=/etcd-data --name node1 
+      --initial-advertise-peer-urls http://${NODE1}:2380 --listen-peer-urls http://${NODE1}:2380 
+      --advertise-client-urls http://${NODE1}:2379 --listen-client-urls http://${NODE1}:2379 
+      --initial-cluster node1=http://${NODE1}:2380
+    ports:
+      - 8500:2379
+      - 8501:2380
+    volumes:
+      - etcd:/etcd-data
+    container_name: ${DEVELOPER}-etcd
+  mysql:
+    image: mysql:8.0.13
+    ports:
+      - 8502:3306
+    restart: always
+    environment:
+       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+       MYSQL_DATABASE: ${MYSQL_DATABASE}
+       MYSQL_USER: ${MYSQL_USER}
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+    container_name: ${DEVELOPER}-mysql
+  postgres:
+    image: postgres:10.4-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: postgres
+      PGDATA: /tmp
+    ports:
+      - 8503:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    container_name: ${DEVELOPER}-postgres
+  redis:
+    image: redis:4.0.9-alpine
+    restart: always
+    ports:
+      - 8504:6379
+    volumes:
+       - redis:/data
+    container_name: ${DEVELOPER}-redis
+  elasticsearch:
+    image: 9d77v/elasticsearch:6.4.2 #docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 8505:9200
+      - 8506:9300
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      - eslog:/usr/share/elasticsearch/logs
+    container_name: ${DEVELOPER}-elasticsearch
+  logstash:
+    image: 9d77v/logstash:6.4.2 #docker.elastic.co/logstash/logstash:6.4.2
+    volumes:
+      - ./jars:/opt/logstash/jars
+      - ./pipeline:/usr/share/logstash/pipeline
+    container_name: ${DEVELOPER}-logstash
+  kibana:
+    image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
+    restart: always
+    ports:
+      - 8507:5601
+    depends_on:
+      - elasticsearch  
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    container_name: ${DEVELOPER}-kibana
+  jaeger:
+    image: jaegertracing/all-in-one:1.6.0
+    restart: always
+    ports:
+      - 8508:6831/udp
+      - 8509:6832/udp
+      - 8510:16686
+    container_name: ${DEVELOPER}-jaeger
+  rabbitmq:
+    image: rabbitmq:3.7.7-management-alpine
+    restart: always
+    ports:
+      - 8511:5672
+      - 8512:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    container_name: ${DEVELOPER}-rabbitmq
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 8513:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - postgres    
+    container_name: ${DEVELOPER}-pgadmin4
+  phpredisadmin:
+    image: erikdubbelboer/phpredisadmin
+    restart: always    
+    ports:
+      - 8514:80
+    environment:
+      REDIS_1_HOST: redis:6379
+      REDIS_1_NAME: MyRedis
+    depends_on:
+      - redis  
+    container_name: ${DEVELOPER}-phpredisadmin
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always 
+    ports:
+      - 8515:2181
+    container_name: ${DEVELOPER}-zookeeper
+  kafka:
+    image: wurstmeister/kafka:2.11-2.0.1
+    restart: always 
+    ports:
+      - 8516:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: ${LOCALHOST}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper  
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    container_name: ${DEVELOPER}-kafka
+volumes:
+    etcd:
+    mysql:
+    postgres:
+    redis:
+    esdata:
+    eslog:

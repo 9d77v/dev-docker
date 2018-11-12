@@ -1,0 +1,20 @@
+version: '3.6'
+
+services:
+  sshtun:
+    image: 9d77v/sshtun
+    restart: always
+    environment:
+      SSH_HOST: ${SSH_HOST}
+      SSH_PORT: ${SSH_PORT}
+      SSH_USER: ${SSH_USER}
+      SSH_PASSWORD: ${SSH_PASSWORD}
+      SSH_FORWARD_PORTS: ${SSH_FORWARD_PORTS}
+    ports:
+      - 3306:3306
+      - 6379:6379
+      - 9200:9200
+    # 存在密钥时忽略ssh密码
+    # volumes:
+    #   - ./id_rsa:/root/.ssh/id_rsa
+    container_name: sshtun
