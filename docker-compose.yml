@@ -68,13 +68,15 @@ services:
       - esdata:/usr/share/elasticsearch/data
       - eslog:/usr/share/elasticsearch/logs
     container_name: ${DEVELOPER}-elasticsearch
-  # logstash:
-  #   image: 9d77v/logstash:6.4.2 #docker.elastic.co/logstash/logstash:6.4.2
-  #   restart: always
-  #   volumes:
-  #     - ./logstash/pipeline:/usr/share/logstash/pipeline
-      # - ./logstash/jars:/opt/logstash/jars
-    # container_name: ${DEVELOPER}-logstash
+  logstash:
+    image: 9d77v/logstash:6.4.3 
+    # jars
+    # postgres /opt/logstash/jars/postgresql-42.2.5.jar
+    # mysql /opt/logstash/jars/mysql-connector-java-5.1.46.jar
+    # restart: always
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    container_name: ${DEVELOPER}-logstash
   filebeat:
     image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
     restart: always
