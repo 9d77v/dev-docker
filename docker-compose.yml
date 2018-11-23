@@ -72,10 +72,11 @@ services:
     image: 9d77v/logstash:6.4.3 
     # jars
     # postgres /opt/logstash/jars/postgresql-42.2.5.jar
-    # mysql /opt/logstash/jars/mysql-connector-java-5.1.46.jar
+    # mysql /opt/logstash/jars/mysql-connector-java-8.0.11.jar
     # restart: always
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/ruby:/usr/share/logstash/ruby
     container_name: ${DEVELOPER}-logstash
   filebeat:
     image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
