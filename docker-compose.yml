@@ -115,7 +115,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     container_name: ${DEVELOPER}-rabbitmq
   pgadmin4:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:3.6 
     restart: always
     ports:
       - 8513:80
