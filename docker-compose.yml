@@ -51,7 +51,7 @@ services:
        - redis:/data
     container_name: ${DEVELOPER}-redis
   elasticsearch:
-    image: 9d77v/elasticsearch:6.4.2 #docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    image: 9d77v/elasticsearch:6.5.0 
     restart: always
     environment:
       - discovery.type=single-node
