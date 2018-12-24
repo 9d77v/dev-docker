@@ -10,6 +10,7 @@ services:
       SSH_USER: ${SSH_USER}
       SSH_PASSWORD: ${SSH_PASSWORD}
       SSH_FORWARD_PORTS: ${SSH_FORWARD_PORTS}
+      SSH_REVERSE_PORTS: ${SSH_REVERSE_PORTS}
     ports:
       - 3306:3306
       - 6379:6379
