@@ -67,6 +67,8 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - eslog:/usr/share/elasticsearch/logs
+      - .config:/usr/share/elasticsearch/plugins/ik/config
+      - ./analysis:/usr/share/elasticsearch/config/analysis
     container_name: ${DEVELOPER}-elasticsearch
   logstash:
     image: 9d77v/logstash:6.4.3 
@@ -184,7 +186,7 @@ services:
     restart: always 
     depends_on:
       - influxdb  
-    container_name: ${DEVELOPER}-grafana   
+    container_name: ${DEVELOPER}-grafana
 volumes:
     etcd:
     mysql:

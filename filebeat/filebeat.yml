@@ -5,7 +5,6 @@ filebeat.modules:
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
   bulk_max_size: 20480
-  flush_interval: 5
 setup.dashboards.enabled: true
 setup.kibana:
   host: "kibana:5601"
