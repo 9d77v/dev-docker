@@ -51,7 +51,7 @@ services:
        - redis:/data
     container_name: ${DEVELOPER}-redis
   elasticsearch:
-    image: 9d77v/elasticsearch:6.5.0 
+    image: 9d77v/elasticsearch:6.5.4
     restart: always
     environment:
       - discovery.type=single-node
@@ -67,7 +67,7 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - eslog:/usr/share/elasticsearch/logs
-      - .config:/usr/share/elasticsearch/plugins/ik/config
+      - ./config:/usr/share/elasticsearch/plugins/ik/config
       - ./analysis:/usr/share/elasticsearch/config/analysis
     container_name: ${DEVELOPER}-elasticsearch
   logstash:
