@@ -195,10 +195,6 @@ services:
         PROFILE : ${PROFILE}
     # ports:
     #   - 8202:7001
-    depends_on:
-      - etcd
-      - redis
-      - postgres  
     volumes:
       - ./conf.yml:/root/cmd/config_centerapi_svc/conf.yml
     container_name: ${DEVELOPER}-CCServer
