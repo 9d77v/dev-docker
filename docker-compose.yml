@@ -10,6 +10,7 @@ services:
       --initial-advertise-peer-urls http://${NODE1}:2380 --listen-peer-urls http://${NODE1}:2380 
       --advertise-client-urls http://${NODE1}:2379 --listen-client-urls http://${NODE1}:2379 
       --initial-cluster node1=http://${NODE1}:2380
+      --auto-compaction-retention=1
     ports:
       - 8500:2379
       - 8501:2380
