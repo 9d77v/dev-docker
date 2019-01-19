@@ -187,6 +187,29 @@ services:
     depends_on:
       - influxdb  
     container_name: ${DEVELOPER}-grafana
+  config-center-server:
+    image: 9d77v/config-center:server
+    restart: always
+    environment:
+        ETCD_SERVER: ${ETCD_SERVER}
+        PROFILE : ${PROFILE}
+    # ports:
+    #   - 8202:7001
+    depends_on:
+      - etcd
+      - redis
+      - postgres  
+    volumes:
+      - ./conf.yml:/root/cmd/config_centerapi_svc/conf.yml
+    container_name: ${DEVELOPER}-CCServer
+  config-center-client:
+    image: 9d77v/config-center:client
+    restart: always
+    ports:
+      - 8518:80
+    depends_on:
+      - config-center-server
+    container_name: ${DEVELOPER}-CCClient
 volumes:
     etcd:
     mysql:

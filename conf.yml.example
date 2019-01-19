@@ -1,0 +1,8 @@
+host: postgres
+port: 5432
+user: postgres
+password: 123456 
+name: config-center
+max_idle_conns: 10
+max_open_conns: 100
+enable_log: true
