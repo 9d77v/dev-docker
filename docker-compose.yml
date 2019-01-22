@@ -102,7 +102,10 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:1.6.0
     restart: always
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
     ports:
+      - 9411:9411/udp
       - 8508:6831/udp
       - 8509:6832/udp
       - 8510:16686
