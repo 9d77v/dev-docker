@@ -210,6 +210,19 @@ services:
     depends_on:
       - config-center-server
     container_name: ${DEVELOPER}-CCClient
+  tensorflow-notebook:
+    image: jupyter/tensorflow-notebook:08e09e60eb05
+    logging:
+      options:
+        max-size: 5m
+    restart: always
+    environment:
+        JUPYTER_ENABLE_LAB: 'yes'
+    ports:
+      - 8519:8888
+    volumes:
+      - tensorflow-notebook:/home/jovyan/work
+    container_name: ${DEVELOPER}-tensorflow-notebook 
 volumes:
     etcd:
     mysql:
@@ -218,3 +231,4 @@ volumes:
     esdata:
     eslog:
     influxdb:
+    tensorflow-notebook:
