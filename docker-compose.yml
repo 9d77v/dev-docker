@@ -223,6 +223,14 @@ services:
     volumes:
       - tensorflow-notebook:/home/jovyan/work
     container_name: ${DEVELOPER}-tensorflow-notebook 
+  tensorflow:
+    image: tensorflow/tensorflow:1.13.0rc0-gpu-py3-jupyter
+    restart: always
+    ports:
+      - 8520:8888
+    volumes:
+      - tensorflow:/tf/notebooks
+    container_name: ${DEVELOPER}-tensorflow 
 volumes:
     etcd:
     mysql:
@@ -231,4 +239,5 @@ volumes:
     esdata:
     eslog:
     influxdb:
+    tensorflow:
     tensorflow-notebook:
