@@ -18,7 +18,7 @@ services:
       - etcd:/etcd-data
     container_name: ${DEVELOPER}-etcd
   mysql:
-    image: mysql:8.0.13
+    image: mysql:5.7.23
     ports:
       - 8502:3306
     restart: always
@@ -224,13 +224,36 @@ services:
       - tensorflow-notebook:/home/jovyan/work
     container_name: ${DEVELOPER}-tensorflow-notebook 
   tensorflow:
-    image: tensorflow/tensorflow:1.13.0rc0-gpu-py3-jupyter
+    image: tensorflow/tensorflow:1.13.0rc0-py3-jupyter
     restart: always
     ports:
       - 8520:8888
     volumes:
       - tensorflow:/tf/notebooks
     container_name: ${DEVELOPER}-tensorflow 
+  jumpserver:
+    image: jumpserver/jms_all:latest
+    restart: always
+    ports:
+      - 8521:80
+      - 8522:2222
+    depends_on:
+      - mysql
+      - redis 
+    environment:
+        BOOTSTRAP_TOKEN: ${JMS_BOOTSTRAP_TOKEN}
+        DB_ENGINE: ${JMS_DB_ENGINE}
+        DB_HOST: ${JMS_DB_HOST}
+        DB_PORT: ${JMS_DB_PORT}
+        DB_USER: ${JMS_DB_USER}
+        DB_PASSWORD: ${JMS_DB_PASSWORD}
+        DB_NAME: ${JMS_DB_NAME}
+        REDIS_HOST: ${JMS_REDIS_HOST}
+        REDIS_PORT: ${JMS_REDIS_PORT}
+        REDIS_PASSWORD: ${JMS_REDIS_PASSWORD}
+    volumes:
+      - jumpserver:/opt/jumpserver/data
+    container_name: ${DEVELOPER}-jumpserver 
 volumes:
     etcd:
     mysql:
@@ -241,3 +264,4 @@ volumes:
     influxdb:
     tensorflow:
     tensorflow-notebook:
+    jumpserver:
