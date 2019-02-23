@@ -200,7 +200,7 @@ services:
     # ports:
     #   - 8202:7001
     volumes:
-      - ./conf.yml:/root/cmd/config_centerapi_svc/conf.yml
+      - ./conf:/root/cmd/config_centerapi_svc/conf
     container_name: ${DEVELOPER}-CCServer
   config-center-client:
     image: 9d77v/config-center:client

@@ -1,5 +1,6 @@
+driver: postgres
 host: postgres
-port: 5432
+port: 8503
 user: postgres
 password: 123456 
 name: config-center
