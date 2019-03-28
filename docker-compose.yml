@@ -254,6 +254,52 @@ services:
     volumes:
       - jumpserver:/opt/jumpserver/data
     container_name: ${DEVELOPER}-jumpserver 
+  pyspark-notebook:
+    image: jupyter/pyspark-notebook:41e066e5caa8
+    logging:
+      options:
+        max-size: 5m
+    restart: always
+    environment:
+        JUPYTER_ENABLE_LAB: 'yes'
+    ports:
+      - 8523:8888
+    volumes:
+      - ./pyspark-notebook:/home/jovyan/work
+    container_name: ${DEVELOPER}-pyspark-notebook 
+  nimbus:
+    image: storm
+    container_name: ${DEVELOPER}-nimbus
+    command: storm nimbus
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
+    restart: always
+    volumes:
+      - stormlog:/logs
+      - stormdata:/data
+    ports:
+      - 8524:6627
+  supervisor:
+    image: storm
+    container_name: ${DEVELOPER}-supervisor
+    command: storm supervisor
+    depends_on:
+      - nimbus
+      - zookeeper
+    links:
+      - nimbus
+      - zookeeper
+    restart: always
+  spark-master:
+    image: bde2020/spark-master:2.4.0-hadoop2.7
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      - INIT_DAEMON_STEP=false
+    container_name: spark-master
 volumes:
     etcd:
     mysql:
@@ -265,3 +311,5 @@ volumes:
     tensorflow:
     tensorflow-notebook:
     jumpserver:
+    stormlog:
+    stormdata:
