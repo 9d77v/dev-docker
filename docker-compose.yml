@@ -292,6 +292,17 @@ services:
       - nimbus
       - zookeeper
     restart: always
+  storm-ui:
+    image: storm
+    container_name: ${DEVELOPER}-storm-ui
+    command: storm ui
+    depends_on:
+      - nimbus
+    links:
+      - nimbus
+    ports:
+      - 8525:8080
+    restart: always  
   spark-master:
     image: bde2020/spark-master:2.4.0-hadoop2.7
     ports:
