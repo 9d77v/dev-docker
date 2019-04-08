@@ -303,6 +303,29 @@ services:
     ports:
       - 8525:8080
     restart: always  
+  jobmanager:
+    image: flink:1.7.2-hadoop28-scala_2.12-alpine
+    expose:
+      - "6123"
+    ports:
+      - "8526:8081"
+    command: jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    container_name: ${DEVELOPER}-flink-jobmanager
+  taskmanager:
+    image: flink:1.7.2-hadoop28-scala_2.12-alpine
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    links:
+      - "jobmanager:jobmanager"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    container_name: ${DEVELOPER}-flink-taskmanager
   spark-master:
     image: bde2020/spark-master:2.4.0-hadoop2.7
     ports:
