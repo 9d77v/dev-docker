@@ -89,6 +89,14 @@ services:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - /var/log/nginx:/var/log/nginx
     container_name: ${DEVELOPER}-filebeat
+  log-filebeat:
+    image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
+    restart: always
+    user: root
+    volumes:
+      - ./filebeat/log-filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./logs:/var/log/log-filebeat
+    container_name: ${DEVELOPER}-log-filebeat
   kibana:
     image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
     restart: always
@@ -149,7 +157,7 @@ services:
       - 8515:2181
     container_name: ${DEVELOPER}-zookeeper
   kafka:
-    image: wurstmeister/kafka:2.12-2.1.0
+    image: wurstmeister/kafka:2.12-2.2.0
     restart: always 
     ports:
       - 8516:9092
