@@ -95,7 +95,7 @@ services:
     user: root
     volumes:
       - ./filebeat/log-filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./logs:/var/log/log-filebeat
+      - ../log/logs:/var/log/log-filebeat
     container_name: ${DEVELOPER}-log-filebeat
   kibana:
     image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
@@ -162,7 +162,7 @@ services:
     ports:
       - 8516:9092
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_${LOCALHOST}:8516
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://${LOCALHOST}:8516
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:8516
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
@@ -312,7 +312,7 @@ services:
       - 8525:8080
     restart: always  
   jobmanager:
-    image: flink:1.7.2-hadoop28-scala_2.12-alpine
+    image: flink:1.8.0-scala_2.11-alpine
     expose:
       - "6123"
     ports:
@@ -323,7 +323,7 @@ services:
     container_name: ${DEVELOPER}-flink-jobmanager
     restart: always
   taskmanager:
-    image: flink:1.7.2-hadoop28-scala_2.12-alpine
+    image: flink:1.8.0-scala_2.11-alpine
     expose:
       - "6121"
       - "6122"
