@@ -52,7 +52,7 @@ services:
        - redis:/data
     container_name: ${DEVELOPER}-redis
   elasticsearch:
-    image: 9d77v/elasticsearch:6.5.4
+    image: 9d77v/elasticsearch:7.0.0
     restart: always
     environment:
       - discovery.type=single-node
@@ -68,7 +68,7 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
       - eslog:/usr/share/elasticsearch/logs
-      - ./config:/usr/share/elasticsearch/plugins/ik/config
+      - ./config:/usr/share/elasticsearch/plugins/analysis-ik/config
       - ./analysis:/usr/share/elasticsearch/config/analysis
     container_name: ${DEVELOPER}-elasticsearch
   logstash:
@@ -95,7 +95,7 @@ services:
     user: root
     volumes:
       - ./filebeat/log-filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ../log/logs:/var/log/log-filebeat
+      - ../kami-statistic/logs:/var/log/log-filebeat
     container_name: ${DEVELOPER}-log-filebeat
   kibana:
     image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
