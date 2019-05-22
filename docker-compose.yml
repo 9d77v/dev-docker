@@ -52,7 +52,7 @@ services:
        - redis:/data
     container_name: ${DEVELOPER}-redis
   elasticsearch:
-    image: 9d77v/elasticsearch:7.0.0
+    image: 9d77v/elasticsearch:6.5.4
     restart: always
     environment:
       - discovery.type=single-node
@@ -98,7 +98,7 @@ services:
       - ../kami-statistic/logs:/var/log/log-filebeat
     container_name: ${DEVELOPER}-log-filebeat
   kibana:
-    image: 9d77v/kibana:7.0.0 #docker.elastic.co/kibana/kibana:6.4.2
+    image: 9d77v/kibana:6.4.2 #docker.elastic.co/kibana/kibana:6.4.2
     restart: always
     ports:
       - 8507:5601
