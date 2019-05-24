@@ -52,7 +52,7 @@ services:
        - redis:/data
     container_name: ${DEVELOPER}-redis
   elasticsearch:
-    image: 9d77v/elasticsearch:7.0.0
+    image: 9d77v/elasticsearch:6.8.0 
     restart: always
     environment:
       - discovery.type=single-node
@@ -82,7 +82,7 @@ services:
       - ./logstash/ruby:/usr/share/logstash/ruby
     container_name: ${DEVELOPER}-logstash
   filebeat:
-    image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
+    image: 9d77v/filebeat:6.8.0 #docker.elastic.co/beats/filebeat:6.8.0 
     restart: always
     user: root
     volumes:
@@ -90,7 +90,7 @@ services:
       - /var/log/nginx:/var/log/nginx
     container_name: ${DEVELOPER}-filebeat
   log-filebeat:
-    image: 9d77v/filebeat:6.4.3 #docker.elastic.co/beats/filebeat:6.4.3 
+    image: 9d77v/filebeat:6.8.0 #docker.elastic.co/beats/filebeat:6.8.0
     restart: always
     user: root
     volumes:
@@ -98,7 +98,7 @@ services:
       - ../kami-statistic/logs:/var/log/log-filebeat
     container_name: ${DEVELOPER}-log-filebeat
   kibana:
-    image: 9d77v/kibana:7.0.0 #docker.elastic.co/kibana/kibana:6.4.2
+    image: 9d77v/kibana:6.8.0 #docker.elastic.co/kibana/kibana:6.8.0
     restart: always
     ports:
       - 8507:5601
