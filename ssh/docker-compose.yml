@@ -12,10 +12,8 @@ services:
       SSH_FORWARD_PORTS: ${SSH_FORWARD_PORTS}
       SSH_REVERSE_PORTS: ${SSH_REVERSE_PORTS}
     ports:
-      - 3306:3306
-      - 6379:6379
-      - 9200:9200
+      - 16686:16686
     # 存在密钥时忽略ssh密码
-    # volumes:
-    #   - ./id_rsa:/root/.ssh/id_rsa
+    volumes:
+      - ~/workspace/lab-hk.pem:/root/.ssh/id_rsa
     container_name: sshtun
