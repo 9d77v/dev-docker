@@ -8,3 +8,11 @@ output.elasticsearch:
 setup.dashboards.enabled: true
 setup.kibana:
   host: "kibana:5601"
+setup.template.settings:
+  index:
+    number_of_shards: 1
+    codec: best_compression
+setup.template.name: "filebeat-nginx"
+setup.template.fields: "/usr/share/filebeat/fields.yml"
+setup.template.pattern: "filebeat-nginx-*"
+setup.template.overwrite: true
