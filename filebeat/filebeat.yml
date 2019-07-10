@@ -1,7 +1,13 @@
 filebeat.modules:
 - module: nginx
   access: 
-    var.paths: ["/var/log/nginx/access.log*","/var/log/nginx/error.log*"]
+    enabled: true
+    var.paths: ["/var/log/nginx/access.log*"]
+    var.convert_timezone: true
+  error:
+    enabled: true
+    var.paths: ["/var/log/nginx/error.log*"]
+    var.convert_timezone: true
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]
   bulk_max_size: 20480
@@ -9,10 +15,8 @@ setup.dashboards.enabled: true
 setup.kibana:
   host: "kibana:5601"
 setup.template.settings:
-  index:
-    number_of_shards: 1
-    codec: best_compression
-setup.template.name: "filebeat-nginx"
+ index:
+   number_of_shards: 1
+   codec: best_compression
 setup.template.fields: "/usr/share/filebeat/fields.yml"
-setup.template.pattern: "filebeat-nginx-*"
 setup.template.overwrite: true
