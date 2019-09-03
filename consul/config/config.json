@@ -1,0 +1,25 @@
+{
+    "datacenter": "9d77v",
+    "data_dir": "/consul/data",
+    "log_level": "INFO",
+    "node_name": "config-server",
+    "server": true,
+    "ui": true,
+    "bootstrap_expect": 1,
+    "addresses": {
+      "https": "0.0.0.0"
+    },
+    "ports": {
+      "http": 8500
+    },
+    "primary_datacenter": "9d77v",
+    "acl": {
+      "enabled": true,
+      "default_policy": "deny",
+      "enable_token_persistence": true,
+      "tokens": {
+        "master": "8F224AAA-AAFF-4359-B719-C262330E4D42",
+        "default": "8F224AAA-AAFF-4359-B719-C262330E4D42"
+      }
+    }
+  }
