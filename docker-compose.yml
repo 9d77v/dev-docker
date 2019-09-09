@@ -347,13 +347,48 @@ services:
   consul:
     image: consul:1.5.3
     ports:
-      - 9500:8500
+      - 8528:8500
     restart: always
     command: consul agent -config-dir=/consul/config -client 0.0.0.0
     container_name: ${DEVELOPER}-consul  
     volumes:
       - ./consul/config:/consul/config
       - ./consul/data:/consul/data
+  gitlab:
+    image: gitlab/gitlab-ce:12.2.4-ce.0
+    restart: always
+    hostname: git.9d77v.me
+    container_name: gitlab
+    environment:
+      TZ: 'Asia/Shanghai'
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://git.9d77v.me/'
+        registry_external_url 'https://git.9d77v.me'
+        gitlab_rails['gitlab_shell_ssh_port'] = 1022
+        gitlab_rails['time_zone'] = 'Asia/Shanghai'
+        # gitlab_rails['smtp_enable'] = true
+        # gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
+        # gitlab_rails['smtp_port'] = 465
+        # gitlab_rails['smtp_user_name'] = "xxxx@xx.com"
+        # gitlab_rails['smtp_password'] = "password"
+        # gitlab_rails['smtp_authentication'] = "login"
+        # gitlab_rails['smtp_enable_starttls_auto'] = true
+        # gitlab_rails['smtp_tls'] = true
+        # gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
+    ports:
+        - 8529:443
+        - 8530:22
+    volumes:
+        - ./gitlab/data:/var/opt/gitlab
+        - ./gitlab/config:/etc/gitlab
+        - ./gitlab/logs:/var/log/gitlab
+  gitlab-runner:
+    image: gitlab/gitlab-runner:v12.2.0
+    container_name: gitlab-runner
+    restart: always 
+    volumes: 
+         - ./gitlab/config:/etc/gitlab-runner
+         - /var/run/docker.sock:/var/run/docker.sock    
 volumes:
     etcd:
     mysql:
