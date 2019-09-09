@@ -341,7 +341,7 @@ services:
     ports:
       - 8527:9042
     volumes:
-      - cassandra:/var/lib/cassandra
+      - ./cassandra:/var/lib/cassandra
     container_name: ${DEVELOPER}-cassandra
     restart: always   
   consul:
@@ -402,4 +402,3 @@ volumes:
     jumpserver:
     # stormlog:
     # stormdata:
-    cassandra:
