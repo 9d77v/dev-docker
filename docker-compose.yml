@@ -376,8 +376,8 @@ services:
         # gitlab_rails['smtp_tls'] = true
         # gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
     ports:
-        - "8530:22"
         - "8529:443"
+        - "8530:22"
     volumes:
         - ./gitlab/data:/var/opt/gitlab
         - ./gitlab/config:/etc/gitlab
@@ -389,6 +389,18 @@ services:
     volumes: 
          - ./gitlab/config:/etc/gitlab-runner
          - /var/run/docker.sock:/var/run/docker.sock    
+  clickhouse:
+    image: yandex/clickhouse-server:19.11.9.52
+    container_name: ${DEVELOPER}-clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    ports: 
+        - "8531:8123"
+        - "8532:9000"
+    volumes: 
+         - ./clickhouse:/var/lib/clickhouse
 volumes:
     etcd:
     mysql:
