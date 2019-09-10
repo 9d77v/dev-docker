@@ -362,9 +362,9 @@ services:
     environment:
       TZ: 'Asia/Shanghai'
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://git.9d77v.me/'
+        external_url 'https://git.9d77v.me/'
         registry_external_url 'https://git.9d77v.me'
-        gitlab_rails['gitlab_shell_ssh_port'] = 1022
+        gitlab_rails['gitlab_shell_ssh_port'] = 8530
         gitlab_rails['time_zone'] = 'Asia/Shanghai'
         # gitlab_rails['smtp_enable'] = true
         # gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
@@ -376,8 +376,8 @@ services:
         # gitlab_rails['smtp_tls'] = true
         # gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
     ports:
-        - 8529:443
-        - 8530:22
+        - "8530:22"
+        - "8529:443"
     volumes:
         - ./gitlab/data:/var/opt/gitlab
         - ./gitlab/config:/etc/gitlab
