@@ -376,7 +376,7 @@ services:
         # gitlab_rails['smtp_tls'] = true
         # gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
     ports:
-        - "8529:80"
+        - "8529:443"
         - "8530:22"
     volumes:
         - ./gitlab/data:/var/opt/gitlab
