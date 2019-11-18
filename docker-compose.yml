@@ -239,29 +239,29 @@ services:
   #   volumes:
   #     - tensorflow:/tf/notebooks
   #   container_name: ${DEVELOPER}-tensorflow 
-  jumpserver:
-    image: jumpserver/jms_all:latest
-    restart: always
-    ports:
-      - 8521:80
-      - 8522:2222
-    depends_on:
-      - mysql
-      - redis 
-    environment:
-        BOOTSTRAP_TOKEN: ${JMS_BOOTSTRAP_TOKEN}
-        DB_ENGINE: ${JMS_DB_ENGINE}
-        DB_HOST: ${JMS_DB_HOST}
-        DB_PORT: ${JMS_DB_PORT}
-        DB_USER: ${JMS_DB_USER}
-        DB_PASSWORD: ${JMS_DB_PASSWORD}
-        DB_NAME: ${JMS_DB_NAME}
-        REDIS_HOST: ${JMS_REDIS_HOST}
-        REDIS_PORT: ${JMS_REDIS_PORT}
-        REDIS_PASSWORD: ${JMS_REDIS_PASSWORD}
-    volumes:
-      - jumpserver:/opt/jumpserver/data
-    container_name: ${DEVELOPER}-jumpserver 
+  # jumpserver:
+  #   image: jumpserver/jms_all:latest
+  #   restart: always
+  #   ports:
+  #     - 8521:80
+  #     - 8522:2222
+  #   depends_on:
+  #     - mysql
+  #     - redis 
+  #   environment:
+  #       BOOTSTRAP_TOKEN: ${JMS_BOOTSTRAP_TOKEN}
+  #       DB_ENGINE: ${JMS_DB_ENGINE}
+  #       DB_HOST: ${JMS_DB_HOST}
+  #       DB_PORT: ${JMS_DB_PORT}
+  #       DB_USER: ${JMS_DB_USER}
+  #       DB_PASSWORD: ${JMS_DB_PASSWORD}
+  #       DB_NAME: ${JMS_DB_NAME}
+  #       REDIS_HOST: ${JMS_REDIS_HOST}
+  #       REDIS_PORT: ${JMS_REDIS_PORT}
+  #       REDIS_PASSWORD: ${JMS_REDIS_PASSWORD}
+  #   volumes:
+  #     - jumpserver:/opt/jumpserver/data
+  #   container_name: ${DEVELOPER}-jumpserver 
   # pyspark-notebook:
   #   image: jupyter/pyspark-notebook:41e066e5caa8
   #   logging:
@@ -401,6 +401,26 @@ services:
         - "8532:9000"
     volumes: 
          - ./clickhouse:/var/lib/clickhouse
+  mongo:
+    image: mongo:3.4.23
+    restart: always
+    ports:
+      - 8533:27017
+    volumes:
+      - ./mongo:/data/db
+    container_name: ${DEVELOPER}-mongo
+  minio:
+    image: minio/minio:RELEASE.2019-10-12T01-39-57Z
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    ports:
+      - "8534:9000"
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    command: server /data
+    container_name: ${DEVELOPER}-minio
 volumes:
     etcd:
     mysql:
@@ -411,6 +431,6 @@ volumes:
     influxdb:
     tensorflow:
     tensorflow-notebook:
-    jumpserver:
+    # jumpserver:
     # stormlog:
     # stormdata:
