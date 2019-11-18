@@ -411,9 +411,10 @@ services:
     container_name: ${DEVELOPER}-mongo
   minio:
     image: minio/minio:RELEASE.2019-10-12T01-39-57Z
+    restart: always
     volumes:
-      - ./minio/data:/data
-      - ./minio/config:/root/.minio
+      - /data1/data:/data
+      - /data1/config:/root/.minio
     ports:
       - "8534:9000"
     environment:
