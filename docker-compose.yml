@@ -387,8 +387,20 @@ services:
     container_name: gitlab-runner
     restart: always 
     volumes: 
-         - ./gitlab/config:/etc/gitlab-runner
-         - /var/run/docker.sock:/var/run/docker.sock    
+         - ./gitlab-runner/config:/etc/gitlab-runner
+         - /var/run/docker.sock:/var/run/docker.sock 
+    command:
+        register \
+        --non-interactive \
+        --executor "docker" \
+        --docker-image alpine:latest \
+        --url "https://git.9d77v.me/" \
+        --registration-token "PROJECT_REGISTRATION_TOKEN" \
+        --description "docker-runner" \
+        --tag-list "test" \
+        --run-untagged="true" \
+        --locked="false" \
+        --access-level="not_protected"
   clickhouse:
     image: yandex/clickhouse-server:19.11.9.52
     container_name: ${DEVELOPER}-clickhouse
