@@ -385,7 +385,6 @@ services:
   gitlab-runner:
     image: gitlab/gitlab-runner:v12.2.0
     container_name: gitlab-runner
-    restart: always 
     volumes: 
          - ./gitlab-runner/config:/etc/gitlab-runner
          - /var/run/docker.sock:/var/run/docker.sock 
@@ -397,7 +396,7 @@ services:
       --url "https://git.9d77v.me/"
       --registration-token "${PROJECT_REGISTRATION_TOKEN}"
       --description "docker-runner"
-      --tag-list "gitlab-runner-test"
+      --tag-list "test"
       --run-untagged="true"
       --locked="false"
       --access-level="not_protected"
