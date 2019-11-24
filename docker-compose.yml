@@ -397,7 +397,7 @@ services:
       --url "https://git.9d77v.me/"
       --registration-token "${PROJECT_REGISTRATION_TOKEN}"
       --description "docker-runner"
-      --tag-list "test"
+      --tag-list "gitlab-runner-test"
       --run-untagged="true"
       --locked="false"
       --access-level="not_protected"
