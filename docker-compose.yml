@@ -395,7 +395,7 @@ services:
       --executor "docker"
       --docker-image alpine:latest
       --url "https://git.9d77v.me/"
-      --registration-token "PROJECT_REGISTRATION_TOKEN"
+      --registration-token "${PROJECT_REGISTRATION_TOKEN}"
       --description "docker-runner"
       --tag-list "test"
       --run-untagged="true"
